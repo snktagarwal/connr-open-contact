@@ -1,0 +1,8 @@
+#This file contains the sockets for the python flup process, which are
+#fastcgi applications
+#TODO: make names meaningful
+upstream xmpp_sockets{
+	
+	server unix:/tmp/xmpp_service-1.socket;
+	server unix:/tmp/xmpp_service-2.socket;
+}

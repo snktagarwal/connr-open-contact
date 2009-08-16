@@ -1,0 +1,19 @@
+1. Write a thrift file
+connr_comm.thrift
+Generate python code
+
+2. Write a server architecture:
+connr_server.py
+This should recive POSTdata with a thrift encoded string
+This should de-serialize the string and call a function say, handle_postdata()
+
+3. Write a simple client:
+The client will create a stub thrift object and make a call to the server
+generate_object()
+send_to_server()
+
+4. Bootstrap the client by replacing/swap send_to_server() with a function to call handle_postdata()
+
+5. Make sure that both behaviours are identical.
+
+6. DOCUMENT

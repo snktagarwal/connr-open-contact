@@ -1,0 +1,24 @@
+DATABASE SCHEMA FOR CONNR
+
+DATABASE: COUCH DB
+CATAGORY: key/value, non Relational
+
+NO. OF DATABASES: 2
+
+DATABASE 1: 
+
+NAME: ClientID 
+KEY: ClientID
+VALUES/COLUMNS: 
+        a. Password
+        b. List of contacts
+        c. List of Credentials
+
+DATABASE 2:
+
+NAME: LoggedOnCredentials
+KEY: Credential String
+VALUES/COLUMNS: 
+        a. Connected Contacts
+        b. ClientID
+

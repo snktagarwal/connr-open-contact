@@ -1,0 +1,363 @@
+Python 2.5.2 (r252:60911, Oct  5 2008, 19:24:49) 
+[GCC 4.3.2] on linux2
+Type "copyright", "credits" or "license()" for more information.
+
+    ****************************************************************
+    Personal firewall software may warn about the connection IDLE
+    makes to its subprocess using this computer's internal loopback
+    interface.  This connection is not visible on any external
+    interface and no data is sent to or received from the Internet.
+    ****************************************************************
+    
+IDLE 1.2.2      
+>>> import httplib2
+>>> h = httplib2.Http(".cache")
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body='this is a text',headers={'Content-Type':'text/html'})
+>>> resp
+{'status': '200', 'content-length': '1015', 'server': 'nginx/0.7.61', 'connection': 'keep-alive', 'date': 'Wed, 15 Jul 2009 04:04:28 GMT', 'content-type': 'text/plain'}
+>>> content
+"Connr Service Hello World!\nTime: Wed Jul 15 09:34:28 2009\nPID 6884\n\n'wsgi.multiprocess': False\n'SERVER_SOFTWARE': 'nginx/0.7.61'\n'SCRIPT_NAME': '/fcgi-bin/hello/'\n'REQUEST_METHOD': 'POST'\n'PATH_INFO': ''\n'SERVER_PROTOCOL': 'HTTP/1.1'\n'QUERY_STRING': ''\n'CONTENT_LENGTH': '14'\n'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'\n'SERVER_NAME': 'localhost'\n'REMOTE_PORT': '48199'\n'wsgi.url_scheme': 'http'\n'SERVER_PORT': '80'\n'SERVER_ADDR': '127.0.0.1'\n'DOCUMENT_ROOT': '/usr/local/nginx'\n'CONTENT_TYPE': 'text/html'\n'DOCUMENT_URI': '/fcgi-bin/hello/'\n'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7b55dec>\n'HTTP_HOST': 'localhost'\n'wsgi.multithread': True\n'HTTP_CONTENT_TYPE': 'text/html'\n'REQUEST_URI': '/fcgi-bin/hello/'\n'wsgi.version': (1, 0)\n'GATEWAY_INTERFACE': 'CGI/1.1'\n'wsgi.run_once': False\n'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7b55ecc>\n'REMOTE_ADDR': '127.0.0.1'\n'HTTP_CONTENT_LENGTH': '14'\n'HTTP_ACCEPT_ENCODING': 'identity'\nPOST-DATA: this is a text\n"
+>>> print content
+Connr Service Hello World!
+Time: Wed Jul 15 09:34:28 2009
+PID 6884
+
+'wsgi.multiprocess': False
+'SERVER_SOFTWARE': 'nginx/0.7.61'
+'SCRIPT_NAME': '/fcgi-bin/hello/'
+'REQUEST_METHOD': 'POST'
+'PATH_INFO': ''
+'SERVER_PROTOCOL': 'HTTP/1.1'
+'QUERY_STRING': ''
+'CONTENT_LENGTH': '14'
+'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'
+'SERVER_NAME': 'localhost'
+'REMOTE_PORT': '48199'
+'wsgi.url_scheme': 'http'
+'SERVER_PORT': '80'
+'SERVER_ADDR': '127.0.0.1'
+'DOCUMENT_ROOT': '/usr/local/nginx'
+'CONTENT_TYPE': 'text/html'
+'DOCUMENT_URI': '/fcgi-bin/hello/'
+'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7b55dec>
+'HTTP_HOST': 'localhost'
+'wsgi.multithread': True
+'HTTP_CONTENT_TYPE': 'text/html'
+'REQUEST_URI': '/fcgi-bin/hello/'
+'wsgi.version': (1, 0)
+'GATEWAY_INTERFACE': 'CGI/1.1'
+'wsgi.run_once': False
+'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7b55ecc>
+'REMOTE_ADDR': '127.0.0.1'
+'HTTP_CONTENT_LENGTH': '14'
+'HTTP_ACCEPT_ENCODING': 'identity'
+POST-DATA: this is a text
+
+>>> import sys
+>>> sys.path.
+SyntaxError: invalid syntax
+>>> sys.path.append('/usr/local/nginx/thrift/gen-py')
+>>> import connr.rest
+>>> import connr.rest.ttypes
+>>> from connr.rest.ttypes import *
+>>> jaccount = connr_jaccount(credentials=['cred1','cred2'],None,None)
+SyntaxError: non-keyword arg after keyword arg
+>>> jaccount = connr_jaccount(credentials=['cred1','cred2'],None,None )
+SyntaxError: non-keyword arg after keyword arg
+>>> jaccount = connr_jaccount()
+>>> jaccount.credentials
+>>> jaccount.credentials=['con1']
+>>> from thrift.protocol import TBinaryProtocol
+from thrift.transport import TTransport
+
+>>> transportOut = TTransport.TMemoryBuffer()
+    protocolOut  = TBinaryProtocol.TBinaryProtocol(transportOut)
+
+>>> jaccount_bytes = jaccount.write(protocolOut)
+
+Traceback (most recent call last):
+  File "<pyshell#19>", line 1, in <module>
+    jaccount_bytes = jaccount.write(protocolOut)
+NameError: name 'protocolOut' is not defined
+>>> >>> from thrift.protocol import TBinaryProtocol
+
+SyntaxError: invalid syntax
+>>> from thrift.protocol import TBinaryProtocol
+>>> from thrift.transport import TTransport
+>>> transportOut = TTransport.TMemoryBuffer()
+>>> protocolOut  = TBinaryProtocol.TBinaryProtocol(transportOut)
+>>> jaccount_bytes = jaccount.write(protocolOut)
+>>> print repr(jaccount_bytes)
+None
+>>> print jaccount_bytes.getvalue()
+
+Traceback (most recent call last):
+  File "<pyshell#27>", line 1, in <module>
+    print jaccount_bytes.getvalue()
+AttributeError: 'NoneType' object has no attribute 'getvalue'
+>>> transportOut.getvalue()
+'\x0f\x00\x01\x0b\x00\x00\x00\x01\x00\x00\x00\x04con1\x00'
+>>> print type(transportOut.getvalue())
+<type 'str'>
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body=transportOut.getvalue(),headers={'Content-Type':'text/html'})
+>>> print resp
+{'status': '200', 'content-length': '1018', 'server': 'nginx/0.7.61', 'connection': 'keep-alive', 'date': 'Wed, 15 Jul 2009 04:13:37 GMT', 'content-type': 'text/plain'}
+>>> print content
+Connr Service Hello World!
+Time: Wed Jul 15 09:43:37 2009
+PID 6892
+
+'wsgi.multiprocess': False
+'SERVER_SOFTWARE': 'nginx/0.7.61'
+'SCRIPT_NAME': '/fcgi-bin/hello/'
+'REQUEST_METHOD': 'POST'
+'PATH_INFO': ''
+'SERVER_PROTOCOL': 'HTTP/1.1'
+'QUERY_STRING': ''
+'CONTENT_LENGTH': '17'
+'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'
+'SERVER_NAME': 'localhost'
+'REMOTE_PORT': '55428'
+'wsgi.url_scheme': 'http'
+'SERVER_PORT': '80'
+'SERVER_ADDR': '127.0.0.1'
+'DOCUMENT_ROOT': '/usr/local/nginx'
+'CONTENT_TYPE': 'text/html'
+'DOCUMENT_URI': '/fcgi-bin/hello/'
+'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7abe10c>
+'HTTP_HOST': 'localhost'
+'wsgi.multithread': True
+'HTTP_CONTENT_TYPE': 'text/html'
+'REQUEST_URI': '/fcgi-bin/hello/'
+'wsgi.version': (1, 0)
+'GATEWAY_INTERFACE': 'CGI/1.1'
+'wsgi.run_once': False
+'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7abe22c>
+'REMOTE_ADDR': '127.0.0.1'
+'HTTP_CONTENT_LENGTH': '17'
+'HTTP_ACCEPT_ENCODING': 'identity'
+POST-DATA: À€À€À€À€À€À€À€con1À€
+
+>>> print transportOut.getvalue()
+À€À€À€À€À€À€À€con1À€
+>>> print repr(transportOut.getvalue())
+'\x0f\x00\x01\x0b\x00\x00\x00\x01\x00\x00\x00\x04con1\x00'
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> ================================ RESTART ================================
+>>> print transportOut.getvalue()
+
+Traceback (most recent call last):
+  File "<pyshell#35>", line 1, in <module>
+    print transportOut.getvalue()
+NameError: name 'transportOut' is not defined
+>>> import httplib2
+>>> h = httplib2.Http(".cache")
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body='this is a text',headers={'Content-Type':'text/html'})
+>>> print content
+Connr Service Hello World!
+Time: Wed Jul 15 09:55:33 2009
+PID 9140
+
+'wsgi.multiprocess': False
+'SERVER_SOFTWARE': 'nginx/0.7.61'
+'SCRIPT_NAME': '/fcgi-bin/hello/'
+'REQUEST_METHOD': 'POST'
+'PATH_INFO': ''
+'SERVER_PROTOCOL': 'HTTP/1.1'
+'QUERY_STRING': ''
+'CONTENT_LENGTH': '14'
+'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'
+'SERVER_NAME': 'localhost'
+'REMOTE_PORT': '43680'
+'wsgi.url_scheme': 'http'
+'SERVER_PORT': '80'
+'SERVER_ADDR': '127.0.0.1'
+'DOCUMENT_ROOT': '/usr/local/nginx'
+'CONTENT_TYPE': 'text/html'
+'DOCUMENT_URI': '/fcgi-bin/hello/'
+'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7bdf3ec>
+'HTTP_HOST': 'localhost'
+'wsgi.multithread': True
+'HTTP_CONTENT_TYPE': 'text/html'
+'REQUEST_URI': '/fcgi-bin/hello/'
+'wsgi.version': (1, 0)
+'GATEWAY_INTERFACE': 'CGI/1.1'
+'wsgi.run_once': False
+'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7bd8f6c>
+'REMOTE_ADDR': '127.0.0.1'
+'HTTP_CONTENT_LENGTH': '14'
+'HTTP_ACCEPT_ENCODING': 'identity'
+POST-DATA: this is a text
+
+>>> import sys
+>>> sys.path.append('/usr/local/nginx/thrift/gen-py/')
+>>> from connr.rest.ttypes import *
+>>> jaccount = connr_jaccount()
+>>> jaccount.credentials=['con1']
+>>> from thrift.protocol import TBinaryProtocol
+>>> from thrift.transport import TTransport
+>>> transportOut = TTransport.TMemoryBuffer()
+>>> protocolOut  = TBinaryProtocol.TBinaryProtocol(transportOut)
+>>> jaccount_bytes = jaccount.write(protocolOut)
+>>>  transportOut.getvalue()
+ 
+  File "<pyshell#50>", line 1
+    transportOut.getvalue()
+   ^
+IndentationError: unexpected indent
+>>> transportOut.getvalue()
+'\x0f\x00\x01\x0b\x00\x00\x00\x01\x00\x00\x00\x04con1\x00'
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body=transportOut.getvalue(),headers={'Content-Type':'text/html'})
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body=transportOut.getvalue(),headers={'Content-Type':'text/html'})
+>>> print content
+Connr Service Hello World!
+Time: Wed Jul 15 10:10:46 2009
+PID 9584
+
+'wsgi.multiprocess': False
+'SERVER_SOFTWARE': 'nginx/0.7.61'
+'SCRIPT_NAME': '/fcgi-bin/hello/'
+'REQUEST_METHOD': 'POST'
+'PATH_INFO': ''
+'SERVER_PROTOCOL': 'HTTP/1.1'
+'QUERY_STRING': ''
+'CONTENT_LENGTH': '17'
+'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'
+'SERVER_NAME': 'localhost'
+'REMOTE_PORT': '47459'
+'wsgi.url_scheme': 'http'
+'SERVER_PORT': '80'
+'SERVER_ADDR': '127.0.0.1'
+'DOCUMENT_ROOT': '/usr/local/nginx'
+'CONTENT_TYPE': 'text/html'
+'DOCUMENT_URI': '/fcgi-bin/hello/'
+'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7a6fa2c>
+'HTTP_HOST': 'localhost'
+'wsgi.multithread': True
+'HTTP_CONTENT_TYPE': 'text/html'
+'REQUEST_URI': '/fcgi-bin/hello/'
+'wsgi.version': (1, 0)
+'GATEWAY_INTERFACE': 'CGI/1.1'
+'wsgi.run_once': False
+'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7a6fcec>
+'REMOTE_ADDR': '127.0.0.1'
+'HTTP_CONTENT_LENGTH': '17'
+'HTTP_ACCEPT_ENCODING': 'identity'
+POST-DATA: À€À€À€À€À€À€À€con1À€
+Thrift: 
+>>> x01
+
+Traceback (most recent call last):
+  File "<pyshell#55>", line 1, in <module>
+    x01
+NameError: name 'x01' is not defined
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body=transportOut.getvalue(),headers={'Content-Type':'text/html'})
+>>> content
+"Connr Service Hello World!\nTime: Wed Jul 15 10:44:59 2009\nPID 10637\n\n'wsgi.multiprocess': False\n'SERVER_SOFTWARE': 'nginx/0.7.61'\n'SCRIPT_NAME': '/fcgi-bin/hello/'\n'REQUEST_METHOD': 'POST'\n'PATH_INFO': ''\n'SERVER_PROTOCOL': 'HTTP/1.1'\n'QUERY_STRING': ''\n'CONTENT_LENGTH': '17'\n'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'\n'SERVER_NAME': 'localhost'\n'REMOTE_PORT': '57388'\n'wsgi.url_scheme': 'http'\n'SERVER_PORT': '80'\n'SERVER_ADDR': '127.0.0.1'\n'DOCUMENT_ROOT': '/usr/local/nginx'\n'CONTENT_TYPE': 'text/html'\n'DOCUMENT_URI': '/fcgi-bin/hello/'\n'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7bfda2c>\n'HTTP_HOST': 'localhost'\n'wsgi.multithread': True\n'HTTP_CONTENT_TYPE': 'text/html'\n'REQUEST_URI': '/fcgi-bin/hello/'\n'wsgi.version': (1, 0)\n'GATEWAY_INTERFACE': 'CGI/1.1'\n'wsgi.run_once': False\n'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7bfdbcc>\n'REMOTE_ADDR': '127.0.0.1'\n'HTTP_CONTENT_LENGTH': '17'\n'HTTP_ACCEPT_ENCODING': 'identity'\nPOST-DATA: \x0f\x00\x01\x0b\x00\x00\x00\x01\x00\x00\x00\x04con1\x00\nThrift: "
+>>> 
+KeyboardInterrupt
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body=transportOut.getvalue(),headers={'Content-Type':'text/html'})
+>>> print content
+Connr Service Hello World!
+Time: Wed Jul 15 10:45:54 2009
+PID 10661
+
+'wsgi.multiprocess': False
+'SERVER_SOFTWARE': 'nginx/0.7.61'
+'SCRIPT_NAME': '/fcgi-bin/hello/'
+'REQUEST_METHOD': 'POST'
+'PATH_INFO': ''
+'SERVER_PROTOCOL': 'HTTP/1.1'
+'QUERY_STRING': ''
+'CONTENT_LENGTH': '17'
+'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'
+'SERVER_NAME': 'localhost'
+'REMOTE_PORT': '57388'
+'wsgi.url_scheme': 'http'
+'SERVER_PORT': '80'
+'SERVER_ADDR': '127.0.0.1'
+'DOCUMENT_ROOT': '/usr/local/nginx'
+'CONTENT_TYPE': 'text/html'
+'DOCUMENT_URI': '/fcgi-bin/hello/'
+'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7c26a0c>
+'HTTP_HOST': 'localhost'
+'wsgi.multithread': True
+'HTTP_CONTENT_TYPE': 'text/html'
+'REQUEST_URI': '/fcgi-bin/hello/'
+'wsgi.version': (1, 0)
+'GATEWAY_INTERFACE': 'CGI/1.1'
+'wsgi.run_once': False
+'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7c26ccc>
+'REMOTE_ADDR': '127.0.0.1'
+'HTTP_CONTENT_LENGTH': '17'
+'HTTP_ACCEPT_ENCODING': 'identity'
+POST-DATA: À€À€À€À€À€À€À€con1À€
+Thrift: 
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body=transportOut.getvalue(),headers={'Content-Type':'text/html'})
+>>> print content
+<html>
+<head>
+<title>The page is temporarily unavailable</title>
+<style>
+body { font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body bgcolor="white" text="black">
+<table width="100%" height="100%">
+<tr>
+<td align="center" valign="middle">
+The page you are looking for is temporarily unavailable.<br/>
+Please try again later.
+</td>
+</tr>
+</table>
+</body>
+</html>
+
+>>> resp, content = h.request('http://localhost/fcgi-bin/hello/','POST',body=transportOut.getvalue(),headers={'Content-Type':'text/html'})
+>>> print content
+Connr Service Hello World!
+Time: Wed Jul 15 10:46:57 2009
+PID 10690
+
+'wsgi.multiprocess': False
+'SERVER_SOFTWARE': 'nginx/0.7.61'
+'SCRIPT_NAME': '/fcgi-bin/hello/'
+'REQUEST_METHOD': 'POST'
+'PATH_INFO': ''
+'SERVER_PROTOCOL': 'HTTP/1.1'
+'QUERY_STRING': ''
+'CONTENT_LENGTH': '17'
+'HTTP_USER_AGENT': 'Python-httplib2/$Rev: 259 $'
+'SERVER_NAME': 'localhost'
+'REMOTE_PORT': '57388'
+'wsgi.url_scheme': 'http'
+'SERVER_PORT': '80'
+'SERVER_ADDR': '127.0.0.1'
+'DOCUMENT_ROOT': '/usr/local/nginx'
+'CONTENT_TYPE': 'text/html'
+'DOCUMENT_URI': '/fcgi-bin/hello/'
+'wsgi.input': <flup.server.fcgi_base.MultiplexedInputStream object at 0xb7a43a2c>
+'HTTP_HOST': 'localhost'
+'wsgi.multithread': True
+'HTTP_CONTENT_TYPE': 'text/html'
+'REQUEST_URI': '/fcgi-bin/hello/'
+'wsgi.version': (1, 0)
+'GATEWAY_INTERFACE': 'CGI/1.1'
+'wsgi.run_once': False
+'wsgi.errors': <flup.server.fcgi_base.TeeOutputStream object at 0xb7a43cec>
+'REMOTE_ADDR': '127.0.0.1'
+'HTTP_CONTENT_LENGTH': '17'
+'HTTP_ACCEPT_ENCODING': 'identity'
+POST-DATA: ['con1']
+Thrift: 
+>>> 

@@ -1,0 +1,32 @@
+Protocol Details:
+
+RESTful Interface to the Connr Service:
+
+Transport Protocol: HTTP/1.1
+
+HTTP Methods Supported: GET, PUT, DELETE, POST( Subject to the URI's )
+
+URI's and their Description:
+
+1. http://connrdomain.com/connr/rest/ <-- Note the ending '/'
+
+Methods:
+(See connr-rest-service.thrift for structure details)
+	(a) PUT: Create a New Account
+	    POST DATA:
+		connr_register
+	    REPLY:
+		connr_jaccount		
+
+	(b) GET: Get a Logged In account credentials
+	    POST DATA:
+		connr_jaccount
+	    REPLY:
+		connr_??
+
+	(c) DELETE: Delete an existing account
+	    POST DATA:
+		connr_jaccount
+	    REPLY:
+		connr_??
+

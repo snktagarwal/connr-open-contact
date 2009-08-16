@@ -1,0 +1,52 @@
+#!/bin/env python
+
+"""
+A template module for converting thriftified data into python objects obtained over the network.
+"""
+
+import sys
+sys.path.append('../thrift/gen-py')
+import connr.rest
+import connr.rest.ttypes
+from connr.rest.ttypes import *
+
+from thrift.protocol import TBinaryProtocol
+from thrift.transport import TTransport
+
+
+
+class ThriftInterface:
+
+    def getPyObject(self, thrift_bytes,saneObj):
+
+        #Get python readable data types
+        transportIn = TTransport.TMemoryBuffer(thrift_bytes)
+        protocolIn = TBinaryProtocol.TBinaryProtocol(transportIn)
+        print repr(thrift_bytes)
+        try:
+            saneObj.read(protocolIn)
+        except:
+            #Using wildcard exception because it throws an EOF error, which would lead to bad understanding
+            #TODO: Add a wrapper to read, throwing an appropriate exception
+
+            #Excepts exceptions thrown due to incorrectly thrift encoded objects
+
+            saneObj = None #Let the server decide what to do!
+    
+    def thriftObjToClientIDDoc(self, saneObj):
+
+        # It is necessary to define a Protocol for the ClientID Database
+        # A dictionary with the following key value pairs
+        # Document Key: ClientID
+        # Document:
+        # password : <str>
+        # credentials : list<str>
+        # contacts : list<list<str>>
+
+        document = {} # Initialize the document to a dictionary
+
+        document['credentials'] = saneObj.credentials
+
+        document['contacts'] = saneObj.contacts
+
+        return document
